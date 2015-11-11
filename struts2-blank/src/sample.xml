@@ -1,0 +1,47 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE struts PUBLIC
+        "-//Apache Software Foundation//DTD Struts Configuration 2.0//EN"
+        "http://struts.apache.org/dtds/struts-2.0.dtd">
+
+<struts>
+
+    <package name="sample" namespace="/sample" extends="default">
+
+        <action name="sample1" class="example.MySample" method="execute">
+            <result>/WEB-INF/jsp/my/sample1.jsp</result>
+        </action>
+        <action name="sample2" class="example.MySample" method="changeLocale">
+            <result>/WEB-INF/jsp/my/sample1.jsp</result>
+        </action>
+        
+        <action name="sample_*" class="example.MySample" method="{1}">
+            <result>/WEB-INF/jsp/my/{1}.jsp</result>
+        </action>
+        
+        <!-- ${name} 과 같이 변수로 JSP 페이지를 지정할 수 있다. 이때 변수의 get/setter 는 지정된 상태 -->
+        <action name="test3" class="example.MySample" method="test3">
+            <result>/WEB-INF/jsp/my/${name}.jsp</result>
+        </action>
+        
+        <!-- 액션명은 * 처리 되어 어떤것이든 상관이 없다.
+             그리고 method 를 지정하지 않았기 때문에 단순히 JSP 호출 처리된다.
+             ex ) http://localhost:8088/sample/other 
+             -->
+        <action name="*" class="example.MySample">
+            <result>/WEB-INF/jsp/my/{1}.jsp</result>
+        </action>
+
+		<!-- Interceptor 관련 예제 처리 액션 -->
+		<action name="inter1" class="example.MySample" method="inter1">
+			<result>/WEB-INF/jsp/my/inter1.jsp</result>
+			<interceptor-ref name="sampleInterceptorStack"></interceptor-ref>
+		</action>
+		<action name="inter2" class="example.MySample" method="inter2">
+			<result>/WEB-INF/jsp/my/inter2.jsp</result>
+			<interceptor-ref name="sampleInterceptorStack2"></interceptor-ref>
+		</action>
+		
+		<action name="result" class="example.MySample" method="resultTest">
+		</action>
+    </package>
+</struts>

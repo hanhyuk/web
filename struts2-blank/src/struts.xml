@@ -1,0 +1,74 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE struts PUBLIC
+	"-//Apache Software Foundation//DTD Struts Configuration 2.3//EN"
+	"http://struts.apache.org/dtds/struts-2.3.dtd">
+
+<struts>
+
+    <constant name="struts.enable.DynamicMethodInvocation" value="false" />
+    <constant name="struts.devMode" value="true" />
+
+	<!--
+		annotation 관련 설정
+		struts.convention.classes.reload 파일 변경시 자동 reload
+		struts.convention.action.packages annotation 을 사용하는 패키지를 지정(다수인 경우 콤마(,) 구분) - 지정 안하면 패키지명에 action 이름이 포함된 패키지내에서 사용
+		struts.convention.result.path 응답시의 jsp 기본 경로를 설정
+		struts.convention.default.parent.package 기본 package 지정
+	-->
+	<constant name="struts.convention.classes.reload" value="true"/>
+	<constant name="struts.convention.result.path" value="/WEB-INF/jsp"/>
+	<constant name="struts.convention.default.parent.package" value="default"/>
+	<constant name="struts.convention.redirect.to.slash" value="true"/>
+	
+    <package name="default" namespace="/" extends="struts-default">
+	
+		<!--
+			Result 구현을 통해 엑셀 다운로드나 JSON 값을 페이지로 리턴하는 등의 처리에 사용하면 편리하다.
+			아래는 단순 예제 
+		 -->
+		<result-types>
+			<result-type name="string" class="example.results.StringResult"/>
+			<result-type name="json" class="example.results.JsonResult"/>
+		</result-types>
+		
+		<!-- 
+        	내가 만든 Interceptor 를 선언한다.
+        -->
+        <interceptors>
+        	<interceptor name="sampleInterceptor" class="example.interceptors.SampleInterceptor"></interceptor>
+        	<interceptor name="sampleInterceptor2" class="example.interceptors.SampleInterceptor2"></interceptor>
+        	
+        	<interceptor-stack name="sampleInterceptorStack">
+        		<interceptor-ref name="sampleInterceptor"></interceptor-ref>
+        		<interceptor-ref name="defaultStack"></interceptor-ref>
+        	</interceptor-stack>
+        	
+        	<interceptor-stack name="sampleInterceptorStack2">
+        		<interceptor-ref name="sampleInterceptor2"></interceptor-ref>
+        		<interceptor-ref name="defaultStack"></interceptor-ref>
+        	</interceptor-stack>
+        </interceptors>
+        
+        <!-- 기본 Interceptor를 지정한다. -->
+		<default-interceptor-ref name="defaultStack"></default-interceptor-ref>
+
+		        
+        <default-action-ref name="index" />
+
+        <global-results>
+            <result name="error">/WEB-INF/jsp/error.jsp</result>
+			<result name="string" type="string">
+				<!-- param 속성은 정의하지 않아도 잘 동작한다. -->
+			</result>
+			<result name="json" type="json"></result>
+        </global-results>
+
+        <global-exception-mappings>
+            <exception-mapping exception="java.lang.Exception" result="error"/>
+        </global-exception-mappings>
+        
+    </package>
+
+    <include file="sample.xml"/>
+
+</struts>

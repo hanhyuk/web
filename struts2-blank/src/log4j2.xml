@@ -1,0 +1,33 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<!-- 
+	log4j2.xml 의 위치는 WEB-INF/classes 하위에 위치해야 한다.
+	이클립스에서는 웹어플리케이션을 배포 할떄 src 폴더 아래에 있는 것들을 해당 위치로 넣어준다.
+ -->
+ 
+<Configuration>
+
+    <Appenders>
+        <Console name="STDOUT" target="SYSTEM_OUT">
+        
+            <PatternLayout pattern="%d %-5p [%t] %C{2} (%F:%L) - %m%n"/>
+            
+        </Console>
+    </Appenders>
+
+	<!-- Logger name 은 패키지명 또는 패키지명 + 클래스명 이 가능하다.
+		 하위에 있는 패키지의 경우 name을 지정해 주지 않으면, 자신의 상위 패키지에 지정된 name으로 로깅처리를 한다.
+		 이마져도 없을 경우 Root 의 로깅조건을 따른다.
+		 그래서 Loggers 선언시 Root 는 반드시 지정해야 하는 항목이다.
+		 - 즉, Logger를 설정하지 않고 사용 가능 했던 이유는 Root 를 통해 로깅처리가 되기 때문이다. - 
+	 -->
+    <Loggers>
+<!--         <Logger name="com.opensymphony.xwork2" level="debug"/> -->
+<!--         <Logger name="org.apache.struts2" level="debug"/> -->
+		<Logger name="example" level="debug"/>
+        <Root level="warn">
+            <AppenderRef ref="STDOUT"/>
+        </Root>
+    </Loggers>
+    
+</Configuration>
