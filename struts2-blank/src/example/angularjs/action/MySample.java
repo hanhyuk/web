@@ -53,6 +53,14 @@ public class MySample extends ActionSupport {
 		return SUCCESS;
 	}
 	
+	@Action(value="s21_agr", results={@Result(name="success", location="s21_agr.jsp")})
+	public String s21_agr() throws Exception {
+		//http://localhost:8088/agr/s21_agr
+		//페이지가 뜰때 리스트를 조회해서 화면에 뿌리는 예제
+		//angularJS 으로 구현
+		return SUCCESS;
+	}
+	
 	@Action(value="getList")
 	public String getList() throws Exception {
 		//http://localhost:8088/agr/getList
