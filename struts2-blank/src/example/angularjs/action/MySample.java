@@ -94,5 +94,12 @@ public class MySample extends ActionSupport {
 		return SUCCESS;
 	}
 	
+	@Action(value="s4_agr", results={@Result(name="success", location="s4_agr.jsp")})
+	public String s4_agr() throws Exception {
+		//http://localhost:8088/agr/s4_agr
+		//$watch 예제
+		//angularJS 으로 구현
+		return SUCCESS;
+	}
 	
 }
